@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UL Manager — Smart Allowance &amp; Expense Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Subtle ambient background accents -->
+    <div class="bg-orb bg-orb-1" aria-hidden="true"></div>
+    <div class="bg-orb bg-orb-2" aria-hidden="true"></div>
+
+    <main class="app-frame" id="app-frame">
+      <!-- ==================== 1. HOME INTERFACE ==================== -->
+      <section class="screen screen-active" id="screen-home" aria-label="Home Interface">
+        <header class="home-hero">
+          <div class="home-hero-grid" aria-hidden="true"></div>
+          <div class="home-hero-glow home-hero-glow-1" aria-hidden="true"></div>
+          <div class="home-hero-glow home-hero-glow-2" aria-hidden="true"></div>
+
+          <div class="home-hero-top">
+            <div class="brand">
+              <div class="brand-mark brand-mark-hero" aria-hidden="true">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"></path>
+                  <polyline points="8 13 11 10 13.5 12.5 16.5 9"></polyline>
+                </svg>
+              </div>
+              <div>
+                <span class="hero-badge">Personal Finance</span>
+                <h1 class="brand-title hero-title">UL <span class="hero-title-accent">Manager</span></h1>
+              </div>
+            </div>
+            <button
+              class="icon-btn icon-btn-hero"
+              id="btn-home-options"
+              type="button"
+              aria-label="Options menu"
+              title="Options"
+            >
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+                <line x1="4" y1="6" x2="20" y2="6"></line>
+                <line x1="4" y1="12" x2="20" y2="12"></line>
+                <line x1="4" y1="18" x2="20" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+
+          <div class="hero-highlight-card">
+            <p class="hero-tagline">Smart allowance &amp; daily limit tracker — stay on budget every day.</p>
+            <div class="hero-pills" aria-hidden="true">
+              <span class="hero-pill">Daily Target</span>
+              <span class="hero-pill">Custom Reset</span>
+              <span class="hero-pill">Live Visuals</span>
+            </div>
+          </div>
+        </header>
+
+        <div class="screen-body home-body">
+          <div class="section-header">
+            <h2>Choose Your Account</h2>
+            <span class="pill-count" id="account-count-pill">0 accounts</span>
+          </div>
+
+          <div class="accounts-list" id="accounts-list">
+            <!-- Dynamically populated -->
+          </div>
+
+          <button class="btn btn-primary btn-block btn-add-user btn-hero-cta" id="btn-go-add-user" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>+ Add Account</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== 2. ADD+ USER INTERFACE ==================== -->
+      <section class="screen" id="screen-add-user" aria-label="Add User Account">
+        <header class="top-bar">
+          <button class="icon-btn" id="btn-add-user-back" type="button" aria-label="Back to Home" title="Back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <h2 class="top-bar-title">Add User Account</h2>
+          <div class="top-bar-spacer"></div>
+        </header>
+
+        <div class="screen-body">
+          <form id="form-add-user" class="card form-card" novalidate>
+            <p class="form-intro">Create a separate profile with its own isolated database, allowance limit, reset frequency, and item catalog.</p>
+
+            <div class="form-group">
+              <label for="input-username">Username</label>
+              <input
+                type="text"
+                id="input-username"
+                name="username"
+                placeholder="e.g. John Doe"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="input-email">Email</label>
+              <input
+                type="email"
+                id="input-email"
+                name="email"
+                placeholder="e.g. john@example.com"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="input-limit">Allowance Limit (Rs.)</label>
+              <div class="input-currency">
+                <span class="currency-prefix">Rs.</span>
+                <input
+                  type="number"
+                  id="input-limit"
+                  name="limit"
+                  placeholder="30000"
+                  min="1"
+                  step="0.01"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="input-reset-frequency">Reset Frequency</label>
+              <select id="input-reset-frequency" name="resetFrequency">
+                <option value="monthly" selected>Monthly (1 month)</option>
+                <option value="weekly">Weekly (7 days)</option>
+                <option value="biweekly">Bi-weekly (14 days)</option>
+                <option value="custom">Custom (days)</option>
+              </select>
+            </div>
+
+            <div class="form-group hidden" id="group-custom-days">
+              <label for="input-reset-days">Custom Reset Interval (Days)</label>
+              <input
+                type="number"
+                id="input-reset-days"
+                name="resetDays"
+                placeholder="e.g. 10"
+                min="1"
+                step="1"
+              />
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary btn-block">Add Account</button>
+              <button type="button" class="btn btn-ghost btn-block" id="btn-add-user-cancel">Back</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ==================== 3. USER ACCOUNT INTERFACE ==================== -->
+      <section class="screen" id="screen-account" aria-label="User Account Interface">
+        <header class="top-bar account-top-bar">
+          <button class="icon-btn" id="btn-account-home" type="button" aria-label="Back to Home" title="Home">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+          </button>
+
+          <div class="user-greeting">
+            <div class="avatar-badge" id="account-avatar">J</div>
+            <div class="greeting-text">
+              <span class="greeting-hi" id="account-greeting">Hi User !</span>
+              <span class="greeting-sub">Welcome Back</span>
+            </div>
+          </div>
+
+          <button class="icon-btn" id="btn-account-settings" type="button" aria-label="Settings" title="Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+          </button>
+        </header>
+
+        <div class="screen-body">
+          <!-- Summary Metrics Grid -->
+          <div class="metrics-grid">
+            <!-- Primary Focus: Daily Cost, Remaining Today & Circular Visualization -->
+            <div class="metric-card metric-hero" id="metric-daily-card">
+              <div class="metric-total-layout">
+                <div class="metric-total-stats">
+                  <div>
+                    <span class="metric-label">Suggested remaining today</span>
+                    <span class="metric-value metric-value-lg tabular" id="metric-daily-remaining">Rs. 0.00</span>
+                  </div>
+                  <div class="metric-cost-row">
+                    <div class="metric-cost-block">
+                      <span class="metric-label">Today's Cost</span>
+                      <span class="metric-cost-value tabular" id="metric-today-cost-hero">Rs. 0.00</span>
+                    </div>
+                    <div class="allowance-chip" id="metric-daily-hint">Target: Rs. 0.00</div>
+                  </div>
+                </div>
+
+                <div class="circular-chart-wrap" aria-label="Today's cost percentage">
+                  <svg class="circular-chart" viewBox="0 0 88 88" width="88" height="88">
+                    <circle class="circle-bg" cx="44" cy="44" r="36"></circle>
+                    <circle class="circle-progress" id="cost-ring-circle" cx="44" cy="44" r="36"></circle>
+                  </svg>
+                  <div class="circular-chart-center">
+                    <span class="circular-percent tabular" id="cost-ring-percent">0%</span>
+                    <span class="circular-label">today</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Secondary: Date & Cycle Totals -->
+            <div class="metric-card metric-date">
+              <span class="metric-label">Date</span>
+              <span class="metric-value" id="metric-date">—</span>
+              <span class="metric-hint" id="metric-days-left">— days to reset</span>
+            </div>
+
+            <div class="metric-card metric-cycle">
+              <span class="metric-label">Total Remaining</span>
+              <span class="metric-value tabular" id="metric-total-remaining">Rs. 0.00</span>
+              <span class="metric-hint tabular">
+                Cost: <strong id="metric-total-cost">Rs. 0.00</strong> <span id="metric-allowance-chip">/ Rs. 0</span>
+              </span>
+            </div>
+          </div>
+
+          <!-- Your Items Section -->
+          <div class="items-section card">
+            <div class="items-header">
+              <div>
+                <h3>Your Items</h3>
+                <p class="items-cost-summary">
+                  Today's cost: <strong class="tabular" id="today-total-cost">Rs. 0.00</strong>
+                </p>
+              </div>
+              <button class="btn btn-primary btn-sm" id="btn-open-add-items" type="button">
+                + Add Items
+              </button>
+            </div>
+
+            <div class="items-list" id="today-items-list">
+              <!-- Latest added item at the top -->
+            </div>
+          </div>
+
+          <!-- Past Activity Check Button -->
+          <button class="btn btn-secondary btn-block" id="btn-past-activity" type="button">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Past Activity</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ==================== 4. PAST ACTIVITY UI ==================== -->
+      <section class="screen" id="screen-past-activity" aria-label="Past Activity">
+        <header class="top-bar">
+          <button class="icon-btn" id="btn-past-back" type="button" aria-label="Back to Account" title="Back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+          <div class="top-bar-center">
+            <h2 class="top-bar-title">Past Activity</h2>
+            <span class="top-bar-sub">Latest Are At Up</span>
+          </div>
+          <div class="top-bar-spacer"></div>
+        </header>
+
+        <div class="screen-body">
+          <div class="card bar-chart-card hidden" id="past-bar-chart-card">
+            <div class="bar-chart-header">
+              <h3>Daily Expenses</h3>
+              <span class="bar-chart-sub" id="past-bar-chart-sub">Daily spending trend</span>
+            </div>
+            <div class="bar-chart" id="past-bar-chart" role="img" aria-label="Daily expenses bar graph">
+              <!-- Bars rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="legend-bar">
+            <span class="legend-item"><span class="status-dot dot-green"></span> Within suggested daily value</span>
+            <span class="legend-item"><span class="status-dot dot-red"></span> Suggested value exceeded</span>
+          </div>
+
+          <div class="past-list" id="past-activity-list">
+            <!-- Dynamically populated, newest date at top -->
+          </div>
+
+          <button class="btn btn-ghost btn-block" id="btn-past-back-bottom" type="button">Back</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- ==================== MODALS & MENUS ==================== -->
+    <div class="modal-backdrop" id="modal-backdrop" aria-hidden="true">
+      <!-- Add Items Menu (Frequent Items List first; New Item form shown after clicking + Add More Items) -->
+      <div class="modal-sheet" id="modal-new-item" role="dialog" aria-modal="true" aria-labelledby="new-item-title">
+        <div class="modal-header">
+          <h3 id="new-item-title">Add Items</h3>
+          <button class="icon-btn icon-btn-sm" data-close-modal type="button" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="frequent-items-view" class="frequent-items-view">
+            <div class="pick-items-list" id="frequent-items-list">
+              <!-- Manually saved frequent items -->
+            </div>
+            <button type="button" class="btn btn-primary btn-block" id="btn-show-new-item">
+              + Add More Items
+            </button>
+          </div>
+
+          <form id="form-new-item" class="new-item-fields hidden" novalidate>
+            <div class="form-group">
+              <label for="input-item-name">Item Name</label>
+              <input
+                type="text"
+                id="input-item-name"
+                placeholder="e.g. Lunch, Bus Ticket, Coffee"
+                autocomplete="off"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="input-item-price">Price</label>
+              <div class="input-currency">
+                <span class="currency-prefix">Rs.</span>
+                <input
+                  type="number"
+                  id="input-item-price"
+                  placeholder="0.00"
+                  min="0.01"
+                  step="0.01"
+                  required
+                />
+                <span class="currency-suffix">.00</span>
+              </div>
+            </div>
+
+            <div class="modal-actions-row">
+              <button type="submit" class="btn btn-primary" data-mode="single">Add Item</button>
+              <button type="button" class="btn btn-secondary" id="btn-add-more-item">Add More +</button>
+            </div>
+
+            <button type="button" class="btn btn-ghost btn-block" id="btn-back-to-frequent">
+              Back to Item List
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Setting Menu -->
+      <div class="modal-sheet" id="modal-settings" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <div class="modal-header">
+          <h3 id="settings-title">Settings</h3>
+          <button class="icon-btn icon-btn-sm" data-close-modal type="button" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body menu-list">
+          <div class="account-meta-box" id="settings-account-meta"></div>
+          <button class="menu-item" type="button" data-setting-field="username">
+            <span>Change User Name</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <button class="menu-item" type="button" data-setting-field="email">
+            <span>Change Email</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <button class="menu-item" type="button" data-setting-field="limit">
+            <span>Change Allowance Limit</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <button class="menu-item" type="button" data-setting-field="resetFrequency">
+            <span>Change Reset Frequency</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+          <button class="menu-item menu-item-danger" type="button" id="btn-reset-account">
+            <span>Reset Account</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Change Setting Value Window -->
+      <div class="modal-sheet" id="modal-edit-setting" role="dialog" aria-modal="true" aria-labelledby="edit-setting-title">
+        <div class="modal-header">
+          <h3 id="edit-setting-title">Update Setting</h3>
+          <button class="icon-btn icon-btn-sm" data-close-modal type="button" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <form id="form-edit-setting" class="modal-body" novalidate>
+          <div class="form-group" id="edit-setting-text-group">
+            <label for="input-edit-setting" id="label-edit-setting">Enter new value</label>
+            <input type="text" id="input-edit-setting" />
+          </div>
+          <div class="hidden" id="edit-setting-frequency-group">
+            <div class="form-group">
+              <label for="select-edit-frequency">Select Reset Frequency</label>
+              <select id="select-edit-frequency">
+                <option value="monthly">Monthly (1 month)</option>
+                <option value="weekly">Weekly (7 days)</option>
+                <option value="biweekly">Bi-weekly (14 days)</option>
+                <option value="custom">Custom (days)</option>
+              </select>
+            </div>
+            <div class="form-group hidden" id="edit-custom-days-group" style="margin-top: 10px;">
+              <label for="input-edit-reset-days">Custom Reset Interval (Days)</label>
+              <input type="number" id="input-edit-reset-days" min="1" step="1" placeholder="e.g. 10" />
+            </div>
+          </div>
+          <div class="modal-actions-row">
+            <button type="button" class="btn btn-ghost" id="btn-edit-setting-back">Back</button>
+            <button type="submit" class="btn btn-primary">Change</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Home Options Menu -->
+      <div class="modal-sheet" id="modal-options" role="dialog" aria-modal="true" aria-labelledby="options-title">
+        <div class="modal-header">
+          <h3 id="options-title">Options</h3>
+          <button class="icon-btn icon-btn-sm" data-close-modal type="button" aria-label="Close">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="modal-body menu-list">
+          <button class="menu-item" type="button" id="btn-toggle-theme">
+            <span id="theme-toggle-label">Switch to Dark Mode</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button class="menu-item" type="button" id="btn-export-data">
+            <span>Export Database (JSON)</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+          </button>
+          <button class="menu-item" type="button" id="btn-load-demo">
+            <span>Create Demo Account</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Confirmation Dialog -->
+      <div class="modal-sheet modal-confirm" id="modal-confirm" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+        <div class="modal-header">
+          <h3 id="confirm-title">Confirm Action</h3>
+        </div>
+        <div class="modal-body">
+          <p id="confirm-message" class="confirm-text"></p>
+          <div class="modal-actions-row">
+            <button type="button" class="btn btn-ghost" id="btn-confirm-cancel">Cancel</button>
+            <button type="button" class="btn btn-danger" id="btn-confirm-ok">Confirm</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
